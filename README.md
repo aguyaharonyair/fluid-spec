@@ -24,13 +24,13 @@ A lightweight package that delivers and syncs all Fluid Spec agents and Claude c
 
 ```bash
 # Using pnpm
-pnpm add git+https://github.com/digital-fluid/fluid-spec.git
+pnpm add git+https://github.com/aharonyaircohen/fluid-spec.git
 
 # Using npm
-npm install git+https://github.com/digital-fluid/fluid-spec.git
+npm install git+https://github.com/aharonyaircohen/fluid-spec.git
 
 # Using yarn
-yarn add git+https://github.com/digital-fluid/fluid-spec.git
+yarn add git+https://github.com/aharonyaircohen/fluid-spec.git
 ```
 
 This will add the package to your `package.json`:
@@ -38,7 +38,7 @@ This will add the package to your `package.json`:
 ```json
 {
   "dependencies": {
-    "@digital-fluid/fluidspec": "git+https://github.com/digital-fluid/fluid-spec.git"
+    "@digital-fluid/fluidspec": "git+https://github.com/aharonyaircohen/fluid-spec.git"
   }
 }
 ```
@@ -46,7 +46,7 @@ This will add the package to your `package.json`:
 ### Install Specific Version
 
 ```bash
-pnpm add git+https://github.com/digital-fluid/fluid-spec.git#v0.1.0
+pnpm add git+https://github.com/aharonyaircohen/fluid-spec.git#v0.1.0
 ```
 
 ## Usage
@@ -165,7 +165,7 @@ templates.forEach(template => {
 
 ```bash
 # Clone the repository
-git clone https://github.com/digital-fluid/fluid-spec.git
+git clone https://github.com/aharonyaircohen/fluid-spec.git
 cd fluid-spec
 
 # Install dependencies
