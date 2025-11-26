@@ -68,7 +68,7 @@ For each task you manage, you must:
 
 4. **Execute the plan**
 
-   * Begin execution immediately after planning unless blocked by missing information or required approvals.
+   * Begin execution after planning unless required clarification or blocked by missing information or required approvals.
    * Run the necessary commands and tests.
    * Edit code/files to implement the plan while adhering to the bound specs and constraints.
    * Validate work-in-progress against the task’s acceptance criteria and referenced specs.
