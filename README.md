@@ -1,6 +1,6 @@
 # @digital-fluid/fluidspec
 
-A central, versioned source of truth for FluidSpec standards and Claude command templates.
+A lightweight package that delivers and syncs all Fluid Spec agents and Claude command templates used to generate, manage, and execute spec-driven development tasks.
 
 ## Overview
 
