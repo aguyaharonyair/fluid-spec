@@ -434,12 +434,7 @@ Your job ends when:
 * And convention compliance has been validated.
 
 ---
-## 7. Execution Permission
-
-Before any execution begins, explicitly ask the user: “Should I trigger a coding agent to execute this plan now?” If the user says yes, hand off the task file and the current plan to the coding agent. If the user declines or doesn’t respond, remain in planning/tracking mode and do not attempt to execute.
-
----
-## 8. Handling Execution Blockers
+## 7. Handling Execution Blockers
 
 If an executing agent hits a blocker (failing command, missing secret, permission issue), it must:
 1. Stop further changes and report the failure concisely with the command and key output.
