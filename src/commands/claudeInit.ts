@@ -162,28 +162,7 @@ export function initSpecFiles(
     console.log(`\nCopying project spec templates to: ${projectTargetDir}`);
     ensureDir(projectTargetDir);
 
-    let copied = 0;
-    let skipped = 0;
-
-    const templateFiles = fs.readdirSync(projectTemplateDir, { withFileTypes: true })
-      .filter(entry => entry.isFile() && (entry.name.endsWith('.template.md') || entry.name.endsWith('.md')));
-
-    for (const templateFile of templateFiles) {
-      const sourcePath = path.join(projectTemplateDir, templateFile.name);
-      const targetFilename = templateFile.name.endsWith('.template.md')
-        ? templateFile.name.replace(/\.template\.md$/, '.md')
-        : templateFile.name;
-      const targetPath = path.join(projectTargetDir, targetFilename);
-
-      if (fs.existsSync(targetPath)) {
-        skipped++;
-        continue;
-      }
-
-      copyFile(sourcePath, targetPath, false);
-      copied++;
-    }
-
+    const { copied, skipped } = copyProjectTemplates(projectTemplateDir, projectTargetDir);
     console.log(`  Project templates copied: ${copied}`);
     if (skipped > 0) {
       console.log(`  Project templates skipped (existing): ${skipped}`);
@@ -194,6 +173,46 @@ export function initSpecFiles(
   } else {
     console.warn(`Warning: Project spec templates not found at ${projectTemplateDir}`);
   }
+}
+
+function copyProjectTemplates(
+  sourceDir: string,
+  targetDir: string
+): { copied: number; skipped: number } {
+  let copied = 0;
+  let skipped = 0;
+
+  const entries = fs.readdirSync(sourceDir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const sourcePath = path.join(sourceDir, entry.name);
+    const targetPath = path.join(targetDir, entry.name);
+
+    if (entry.isDirectory()) {
+      ensureDir(targetPath);
+      const result = copyProjectTemplates(sourcePath, targetPath);
+      copied += result.copied;
+      skipped += result.skipped;
+      continue;
+    }
+
+    if (entry.isFile()) {
+      const targetFilename = entry.name.endsWith('.template.md')
+        ? entry.name.replace(/\.template\.md$/, '.md')
+        : entry.name;
+      const finalTargetPath = path.join(targetDir, targetFilename);
+
+      if (fs.existsSync(finalTargetPath)) {
+        skipped++;
+        continue;
+      }
+
+      copyFile(sourcePath, finalTargetPath, false);
+      copied++;
+    }
+  }
+
+  return { copied, skipped };
 }
 
 /**

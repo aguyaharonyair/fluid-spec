@@ -126,6 +126,15 @@ test('Spec templates exist', () => {
   if (projectMdFiles.length === 0) {
     throw new Error('No .md files found in templates/spec/project');
   }
+
+  const customDir = path.join(specProjectDir, 'custom');
+  if (!fs.existsSync(customDir)) {
+    throw new Error('templates/spec/project/custom directory not found');
+  }
+  const customFiles = fs.readdirSync(customDir).filter(f => f.endsWith('.md'));
+  if (customFiles.length === 0) {
+    throw new Error('No .md files found in templates/spec/project/custom');
+  }
 });
 
 // Test 6: CLI help command works
@@ -260,6 +269,18 @@ test('CLI claude:init creates command structure', () => {
     }
     if (!projectFiles.includes('task-template.md')) {
       throw new Error('Project templates were not renamed to .md files');
+    }
+    if (!projectFiles.includes('design-system.md') || !projectFiles.includes('tech-stack.md')) {
+      throw new Error('Project spec .md files were not copied to .fluidspec/spec/project');
+    }
+
+    const projectCustomDir = path.join(projectDir, 'custom');
+    if (!fs.existsSync(projectCustomDir)) {
+      throw new Error('.fluidspec/spec/project/custom directory was not created');
+    }
+    const customFiles = fs.readdirSync(projectCustomDir).filter(f => f.endsWith('.md'));
+    if (customFiles.length === 0) {
+      throw new Error('No custom project spec files were copied to .fluidspec/spec/project/custom');
     }
     if (!projectFiles.includes('design-system.md') || !projectFiles.includes('tech-stack.md')) {
       throw new Error('Project spec .md files were not copied to .fluidspec/spec/project');
