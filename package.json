@@ -1,5 +1,5 @@
 {
-  "name": "@digital-fluid/fluidspec",
+  "name": "@digital-fluid/fluid-agent-spec",
   "version": "0.1.0",
   "description": "Central Fluid Spec templates and CLI for generating Claude commands.",
   "main": "dist/index.cjs",
