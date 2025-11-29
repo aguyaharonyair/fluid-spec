@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { listSubdirectories, readJsonFile } from './utils/fsUtils';
+import { findPackageRoot } from './utils/packageUtils';
 import { claudeInit as claudeInitCommand } from './commands/claudeInit';
 
 /**
@@ -98,33 +99,6 @@ export function initClaudeCommands(options: InitClaudeCommandsOptions = {}): voi
   const force = options.force || false;
 
   claudeInitCommand({ projectRoot, force });
-}
-
-/**
- * Finds the root directory of this package
- * Works both in development and production environments
- */
-function findPackageRoot(): string {
-  let currentDir = __dirname;
-
-  // Walk up the directory tree until we find package.json
-  for (let i = 0; i < 10; i++) {
-    const packageJsonPath = path.join(currentDir, 'package.json');
-    if (fs.existsSync(packageJsonPath)) {
-      // Verify this is the right package
-      try {
-        const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-        if (pkg.name === '@digital-fluid/fluidspec') {
-          return currentDir;
-        }
-      } catch (error) {
-        // Continue searching
-      }
-    }
-    currentDir = path.dirname(currentDir);
-  }
-
-  throw new Error('Could not find @digital-fluid/fluidspec package root');
 }
 
 // Re-export utilities for advanced use cases

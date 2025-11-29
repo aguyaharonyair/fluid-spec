@@ -46,19 +46,28 @@ function processDirectory(dir) {
       const mjsPath = filePath.replace('.js', '.mjs');
       const cjsPath = filePath.replace('.js', '.cjs');
 
+      // Transform require() calls - handles different quote types and spacing
+      const transformRequires = (content, extension) => {
+        return content.replace(
+          /\brequire\s*\(\s*(['"`])(\.[^'"`]+)\1\s*\)/g,
+          (match, quote, modulePath) => {
+            if (!modulePath.startsWith('.')) return match;
+            return `require(${quote}${modulePath}${extension}${quote})`;
+          }
+        );
+      };
+
       // For CJS, update require paths to include .cjs extension
-      const cjsContent = content.replace(/require\(["'](\..+?)["']\)/g, (match, p1) => {
-        // Don't add extension to node modules
-        if (!p1.startsWith('.')) return match;
-        // Add .cjs to relative imports
-        return `require("${p1}.cjs")`;
-      });
+      const cjsContent = transformRequires(content, '.cjs');
 
       // Write MJS (with .mjs extensions for imports)
-      const mjsContent = content.replace(/require\(["'](\..+?)["']\)/g, (match, p1) => {
-        if (!p1.startsWith('.')) return match;
-        return `require("${p1}.mjs")`;
-      });
+      const mjsContent = transformRequires(content, '.mjs');
+
+      // Validate transformation if file contains relative imports
+      const hasRelativeImports = /\brequire\s*\(\s*(['"`])\.[^'"`]/.test(content);
+      if (hasRelativeImports && cjsContent === content) {
+        console.warn(`Warning: ${filePath} contains relative imports but transformation may have failed`);
+      }
 
       fs.writeFileSync(mjsPath, mjsContent);
       fs.writeFileSync(cjsPath, cjsContent);
