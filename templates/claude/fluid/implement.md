@@ -35,10 +35,11 @@ You provide the orchestration, state management, and handoff between phases.
 **Follow the complete workflow from `create-task.md` (Task Generator Agent):**
 
 1. Execute all sections of create-task.md exactly as specified:
-   - **Section 2**: Ask 3-5 clarifying questions (Goal & Outcome, Context, Scope & Constraints, Ownership)
    - **Section 1**: Classify task type (feature, bugfix, refactor, infra, spec)
+   - **Section 2**: Ask 3-5 clarifying questions (Goal & Outcome, Context, Scope & Constraints, Ownership)
    - **Section 3**: Select relevant specs (always include core specs: constraints.md, conventions.md, README.md)
    - **Section 4**: Generate YAML using the schema defined in create-task.md
+   - **Section 5**: Format output (human-readable summary + YAML block)
    - **Section 6**: Write file to `.fluidspec/tasks/{type}/{NNN-YYYYMMDD}/{slug}.yaml`
 
 2. **After YAML file is created**, store the file path in memory:
